@@ -29,10 +29,11 @@ form File acquistion
     word femalePrefix F
     boolean hasWordTier 0
     boolean hasStressTier 0
+    boolean useSex 1
     integer chunkTier 2
     integer wordTier 1
     integer stressTier 4
-    integer genderPrefixIndex 5
+    integer sexPrefixIndex 5
     integer maleNumberFormants 5
     integer maleFrequencyRange 5000
     integer femaleNumberFormants 5
@@ -45,10 +46,10 @@ selectObject: "Strings files"
 qtFiles =  Get number of strings
 for i from 1 to qtFiles
     filename$ = Get string: i
-    genderPrefix$ = mid$(filename$, genderPrefixIndex, 1)
-    appendInfoLine: genderPrefix$
-    if genderPrefix$ != malePrefix$ and genderPrefix$ != femalePrefix$
-        exitScript: "Something is wrong with gender prefixes."
+    sexPrefix$ = mid$(filename$, sexPrefixIndex, 1)
+    appendInfoLine: sexPrefix$
+    if useSex and sexPrefix$ != malePrefix$ and sexPrefix$ != femalePrefix$
+        exitScript: "Something is wrong with sex prefixes."
     endif
     Set string: i, filename$ - audioFileExtension$
 endfor
@@ -69,9 +70,13 @@ for i from 1 to qtFiles
     # Create Formant object
     selectObject: "Sound " + id$
     appendInfoLine: "Processing file " + id$ + "..."
-    if mid$(id$, genderPrefixIndex, 1) == "M"
-        To Formant (burg): 0, maleNumberFormants, maleFrequencyRange, 0.025, 50.0
-    elif mid$(id$, genderPrefixIndex, 1) == "F"
+    if useSex
+        if mid$(id$, sexPrefixIndex, 1) == "M"
+            To Formant (burg): 0, maleNumberFormants, maleFrequencyRange, 0.025, 50.0
+        elif mid$(id$, sexPrefixIndex, 1) == "F"
+            To Formant (burg): 0, femaleNumberFormants, femaleFrequencyRange, 0.025, 50.0
+        endif
+    else
         To Formant (burg): 0, femaleNumberFormants, femaleFrequencyRange, 0.025, 50.0
     endif
 
