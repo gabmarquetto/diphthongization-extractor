@@ -34,6 +34,7 @@ Word and Stress tiers may also be provided to encode phonetic or context.
 These tiers are optional; when disabled, female parameter settings are used by default.
 
 If you use this script, please cite:
+
 Marquetto, G. (2025). Diphthongization-Extractor.psc [Praat script]. Institute of Language Studies, University of Campinas. Available at: https://github.com/gabmarquetto/diphthongization-extractor
 
 Contact:
